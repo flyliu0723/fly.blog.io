@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="../../../../lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="../../../../lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="../../../../css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../../images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../../images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="../../../../images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="动态语言类型和鸭子类型 从前在 JavaScript 王国里，有一个国王，他觉得世界上最美妙的声音就是鸭子的叫声，于是国王召集大臣，要组建一个 1000 只鸭子组成的合唱团。大臣们找遍了全国，终于找到 999 只鸭子，但是始终还差一只，最后大臣发现有一只非常特别的鸡，它的叫声跟鸭子一模一样，于是这只鸡就成为了合唱团的最后一员。  鸭子类型很好的告诉我们一个原则，在编程过程中，我们不需要知道对象的类">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面向对象的JavaScript">
+<meta property="og:url" content="https://flyliu0723.github.io/fly.blog.io/2018/05/04/JavaScript_pattern_note_object/index.html">
+<meta property="og:site_name" content="FLY`s BLOG">
+<meta property="og:description" content="动态语言类型和鸭子类型 从前在 JavaScript 王国里，有一个国王，他觉得世界上最美妙的声音就是鸭子的叫声，于是国王召集大臣，要组建一个 1000 只鸭子组成的合唱团。大臣们找遍了全国，终于找到 999 只鸭子，但是始终还差一只，最后大臣发现有一只非常特别的鸡，它的叫声跟鸭子一模一样，于是这只鸡就成为了合唱团的最后一员。  鸭子类型很好的告诉我们一个原则，在编程过程中，我们不需要知道对象的类">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-04T07:54:49.217Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面向对象的JavaScript">
+<meta name="twitter:description" content="动态语言类型和鸭子类型 从前在 JavaScript 王国里，有一个国王，他觉得世界上最美妙的声音就是鸭子的叫声，于是国王召集大臣，要组建一个 1000 只鸭子组成的合唱团。大臣们找遍了全国，终于找到 999 只鸭子，但是始终还差一只，最后大臣发现有一只非常特别的鸡，它的叫声跟鸭子一模一样，于是这只鸡就成为了合唱团的最后一员。  鸭子类型很好的告诉我们一个原则，在编程过程中，我们不需要知道对象的类">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://flyliu0723.github.io/fly.blog.io/2018/05/04/JavaScript_pattern_note_object/"/>
+
+
+
+
+
+  <title>面向对象的JavaScript | FLY`s BLOG</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FLY`s BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://flyliu0723.github.io/fly.blog.io">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FLY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="../../../../images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FLY`s BLOG">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面向对象的JavaScript</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-04T15:54:49+08:00">
+                2018-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="../../../../categories/JavaScript设计模式和开发实践/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript设计模式和开发实践</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="动态语言类型和鸭子类型"><a href="#动态语言类型和鸭子类型" class="headerlink" title="动态语言类型和鸭子类型"></a>动态语言类型和鸭子类型</h2><blockquote>
+<p>从前在 JavaScript 王国里，有一个国王，他觉得世界上最美妙的声音就是鸭子的叫<br>声，于是国王召集大臣，要组建一个 1000 只鸭子组成的合唱团。大臣们找遍了全国，<br>终于找到 999 只鸭子，但是始终还差一只，最后大臣发现有一只非常特别的鸡，它的叫<br>声跟鸭子一模一样，于是这只鸡就成为了合唱团的最后一员。</p>
+</blockquote>
+<p>鸭子类型很好的告诉我们一个原则，在编程过程中，我们不需要知道对象的类型，只需要保证它有某一个方法，调用的时候，它可以执行这个方法就可以了</p>
+<blockquote>
+<p>我们只需要关注对象的行为，而不关注对象本身</p>
+</blockquote>
+<p>用代码表示鸭子模型就是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var duck = &#123;</span><br><span class="line">    duckSinging: function()&#123;</span><br><span class="line">    console.log( &apos;嘎嘎嘎&apos; );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var chicken = &#123;</span><br><span class="line">    duckSinging: function()&#123;</span><br><span class="line">    console.log( &apos;嘎嘎嘎&apos; );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var choir = []; // 合唱团</span><br><span class="line">var joinChoir = function( animal )&#123;</span><br><span class="line">    if ( animal &amp;&amp; typeof animal.duckSinging === &apos;function&apos; )&#123;</span><br><span class="line">        choir.push( animal );</span><br><span class="line">        console.log( &apos;恭喜加入合唱团&apos; );</span><br><span class="line">        console.log( &apos;合唱团已有成员数量:&apos; + choir.length );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">joinChoir( duck ); // 恭喜加入合唱团</span><br><span class="line">joinChoir( chicken ); // 恭喜加入合唱团</span><br></pre></td></tr></table></figure></p>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>堕胎的含义是：<strong>同一操作作用于不同的对象上面，可以产生不同的解释和不同的执行结<br>果。</strong> 换句话说就是，当我们给不同的对象发送了同一个消息时，这些对象会根据这个消息做出不同的反馈。</p>
+<p>就像我们让一群鸭子和鸡叫的时候，鸭子就会发出‘嘎嘎嘎’的叫声，而鸡就会发出‘咯咯咯’的叫声，同样的‘叫’的指令，得到了不同的声音。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var makeSound = function( animal )&#123;</span><br><span class="line">    if ( animal instanceof Duck )&#123;</span><br><span class="line">        console.log( &apos;嘎嘎嘎&apos; );</span><br><span class="line">    &#125;else if ( animal instanceof Chicken )&#123;</span><br><span class="line">        console.log( &apos;咯咯咯&apos; );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var Duck = function()&#123;&#125;;</span><br><span class="line">var Chicken = function()&#123;&#125;;</span><br><span class="line">makeSound( new Duck() ); // 嘎嘎嘎</span><br><span class="line">makeSound( new Chicken() ); // 咯咯咯</span><br></pre></td></tr></table></figure>
+<p>上面的代码就实现了鸡鸭对叫的指令发出不通反馈的效果，但是这段代码有个问题，就是当我们有了一只狗，狗也要发出声音的时候，我们需要去更改这些代码，这就可能会产生很多影响。<br>我们需要把‘做什么’和‘谁去做以及怎么去做’分离开来，下面是改进过的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var Duck = function()&#123;&#125;</span><br><span class="line">Duck.prototype.sound = function()&#123;</span><br><span class="line">    console.log( &apos;嘎嘎嘎&apos; );</span><br><span class="line">&#125;;</span><br><span class="line">var Chicken = function()&#123;&#125;</span><br><span class="line">Chicken.prototype.sound = function()&#123;</span><br><span class="line">    console.log( &apos;咯咯咯&apos; );</span><br><span class="line">&#125;;</span><br><span class="line">makeSound( new Duck() ); // 嘎嘎嘎</span><br><span class="line">makeSound( new Chicken() ); // 咯咯咯</span><br></pre></td></tr></table></figure></p>
+<p>这样之后，如果来了一条狗，那么我们就可以再加上一段代码，而不需要修改已有的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var Dog = function()&#123;&#125;</span><br><span class="line">Dog.prototype.sound = function()&#123;</span><br><span class="line">    console.log( &apos;汪汪汪&apos; );</span><br><span class="line">&#125;;</span><br><span class="line">makeSound( new Dog() ); // 汪汪汪</span><br></pre></td></tr></table></figure></p>
+<p>这是利用JavaScript实现的多态效果，因为JavaScript是动态语言类型，我们不需要关注对象的类型是什么，但是如果是一个静态的语言类型的语言，比如java呢，我们又要怎么实现多态呢？</p>
+<p>静态语言类型设计了一个实现方式—“向上转型”，不管使狗还是鸡鸭，它们都是动物，所以我们可以定义一个超类–‘animal’，这个超类有一个方法叫做‘makesound’，狗还有鸡鸭都继承这个方法，并重写这个方法，这样也就实现了多态。</p>
+<p>Java的实现多态我们暂不讨论，接下来我们继续来看JavaScript的多态。</p>
+<p>观察上面JavaScript实现的代码我们很容易可以看出，本来我们需要用到if…else的判断语句来判断是鸡还是鸭，优化后的代码就可以消除这些条件判断语句。</p>
+<p>换句话说，多态的目的就是<strong>通过把过程化的条件分支语句转化为对象的多态性，从而消除这些条件分支语句</strong></p>
+<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>封装的目的是将信息隐藏，封装不仅仅是隐藏数据，还包括隐藏实现细节，设计细节以及隐藏对象的类型等。</p>
+<h2 id="原型模式和基于原型继承的JavaScript对象系统"><a href="#原型模式和基于原型继承的JavaScript对象系统" class="headerlink" title="原型模式和基于原型继承的JavaScript对象系统"></a>原型模式和基于原型继承的JavaScript对象系统</h2><p>原型模式是用于创建对象的一种设计模式，通常我们想要创建一个对象，一种方法时先指定它的类型，然后通过类来创建这个对象。<br>原型模式则选用了另一个方式，我们不在关心对象的具体类型，而是找到一个对象，然后克隆出来一个一模一样的对象。</p>
+<p>可以说JavaScript中所有的对象都是通过克隆出来的，就想人类，最初只是一个受精卵，通过不断地分类克隆，产生了多种多样的细胞，组织，而对于JavaScript来说，最初的那个受精卵就是Object对象。</p>
+<p>克隆的这个过程就出现了另外一些概念，这里我们只会提一下，不会深入的讲解</p>
+<p>animal对象通过object对象克隆而来，object就是animal的原型，dog对象就克隆自animal，所以animal就是dog的原型，这个时候我们不难发现通过原型，我们链接成了一个链，这条链被称为原型链。</p>
+<p>当我们尝试调用dog的某个方法时，如果在dog对象上没有找到这个方法，就会沿着原型链向上查找，这样一来就能得到继承的效果。</p>
+<p>原型编程泛型的基本规则</p>
+<ul>
+<li>所有的数据都是对象</li>
+<li>要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆它。</li>
+<li>对象会记住它的原型</li>
+<li>如果对象无法响应某个请求，就会将这个请求委托给自己的原型</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="../../../../tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="../JavaScript_pattern_note_this/" rel="next" title="this">
+                <i class="fa fa-chevron-left"></i> this
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="../hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">FLY</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="../../../../archives">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="../../../../categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="../../../../tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#动态语言类型和鸭子类型"><span class="nav-number">1.</span> <span class="nav-text">动态语言类型和鸭子类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多态"><span class="nav-number">2.</span> <span class="nav-text">多态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装"><span class="nav-number">3.</span> <span class="nav-text">封装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原型模式和基于原型继承的JavaScript对象系统"><span class="nav-number">4.</span> <span class="nav-text">原型模式和基于原型继承的JavaScript对象系统</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FLY</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="../../../../js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="../../../../js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="../../../../js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="../../../../js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="../../../../js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="../../../../js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="../../../../js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
