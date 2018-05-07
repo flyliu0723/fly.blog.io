@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="我们知道计算机识别的语言并不是我们所看到的代码，而是对这些代码进行编译之后的机器语言，而将我们写的代码，转化成机器语言的过程，就被称为编译。 下面我们会来看一下计算机是如何对一段代码进行编译的，当然我们并不能清清楚楚的介绍每一步，只能说一下大概的步骤，而且真正详细的过程对我们来说也没有必要了解的清清楚楚。 传统的编译语言的流程中，大致可以分为三个步骤：  分词/词法分析  这个过程很容易理解，就是">
+<meta name="description" content="作用域有两种主要的工作模型，一种是大多数编程语言采用的词法作用域，这也是我们要学习的JavaScript采用的，另一种叫做动态作用域，也有部分语言采用这种。 词法阶段简单的说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域就是有你写代码时将变量和块作用域写到哪里决定的。 1234567891011function foo(a)&amp;#123;    var b = a * 2    fun">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="编译原理">
-<meta property="og:url" content="https://flyliu0723.github.io/fly.blog.io/2018/05/04/you_dont_know_js_note_translate/index.html">
+<meta property="og:title" content="词法作用域">
+<meta property="og:url" content="https://flyliu0723.github.io/fly.blog.io/2018/05/07/you_dont_know_js_note_morphology_scope/index.html">
 <meta property="og:site_name" content="FLY`s BLOG">
-<meta property="og:description" content="我们知道计算机识别的语言并不是我们所看到的代码，而是对这些代码进行编译之后的机器语言，而将我们写的代码，转化成机器语言的过程，就被称为编译。 下面我们会来看一下计算机是如何对一段代码进行编译的，当然我们并不能清清楚楚的介绍每一步，只能说一下大概的步骤，而且真正详细的过程对我们来说也没有必要了解的清清楚楚。 传统的编译语言的流程中，大致可以分为三个步骤：  分词/词法分析  这个过程很容易理解，就是">
+<meta property="og:description" content="作用域有两种主要的工作模型，一种是大多数编程语言采用的词法作用域，这也是我们要学习的JavaScript采用的，另一种叫做动态作用域，也有部分语言采用这种。 词法阶段简单的说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域就是有你写代码时将变量和块作用域写到哪里决定的。 1234567891011function foo(a)&amp;#123;    var b = a * 2    fun">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-04T08:04:01.225Z">
+<meta property="og:updated_time" content="2018-05-07T06:12:18.133Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="编译原理">
-<meta name="twitter:description" content="我们知道计算机识别的语言并不是我们所看到的代码，而是对这些代码进行编译之后的机器语言，而将我们写的代码，转化成机器语言的过程，就被称为编译。 下面我们会来看一下计算机是如何对一段代码进行编译的，当然我们并不能清清楚楚的介绍每一步，只能说一下大概的步骤，而且真正详细的过程对我们来说也没有必要了解的清清楚楚。 传统的编译语言的流程中，大致可以分为三个步骤：  分词/词法分析  这个过程很容易理解，就是">
+<meta name="twitter:title" content="词法作用域">
+<meta name="twitter:description" content="作用域有两种主要的工作模型，一种是大多数编程语言采用的词法作用域，这也是我们要学习的JavaScript采用的，另一种叫做动态作用域，也有部分语言采用这种。 词法阶段简单的说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域就是有你写代码时将变量和块作用域写到哪里决定的。 1234567891011function foo(a)&amp;#123;    var b = a * 2    fun">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://flyliu0723.github.io/fly.blog.io/2018/05/04/you_dont_know_js_note_translate/"/>
+  <link rel="canonical" href="https://flyliu0723.github.io/fly.blog.io/2018/05/07/you_dont_know_js_note_morphology_scope/"/>
 
 
 
 
 
-  <title>编译原理 | FLY`s BLOG</title>
+  <title>词法作用域 | FLY`s BLOG</title>
   
 
 
@@ -260,7 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">编译原理</h1>
+          <h1 class="post-title" itemprop="name headline">词法作用域</h1>
         
 
         <div class="post-meta">
@@ -272,8 +272,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-04T16:00:08+08:00">
-                2018-05-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T11:34:25+08:00">
+                2018-05-07
               </time>
             
 
@@ -332,21 +332,15 @@
       
 
       
-        <p>我们知道计算机识别的语言并不是我们所看到的代码，而是对这些代码进行编译之后的机器语言，而将我们写的代码，转化成机器语言的过程，就被称为编译。</p>
-<p>下面我们会来看一下计算机是如何对一段代码进行编译的，当然我们并不能清清楚楚的介绍每一步，只能说一下大概的步骤，而且真正详细的过程对我们来说也没有必要了解的清清楚楚。</p>
-<p>传统的编译语言的流程中，大致可以分为三个步骤：</p>
+        <p>作用域有两种主要的工作模型，一种是大多数编程语言采用的词法作用域，这也是我们要学习的JavaScript采用的，另一种叫做动态作用域，也有部分语言采用这种。</p>
+<h2 id="词法阶段"><a href="#词法阶段" class="headerlink" title="词法阶段"></a>词法阶段</h2><p>简单的说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域就是有你写代码时将变量和块作用域写到哪里决定的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function foo(a)&#123;</span><br><span class="line">    var b = a * 2</span><br><span class="line"></span><br><span class="line">    function bar(c) &#123;</span><br><span class="line">        console.log(a, b, c)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    bar(b * 3)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(2) // 2, 4, 12</span><br></pre></td></tr></table></figure>
+<p>上面代码能很好的帮助我们理解词法作用域，我们可以将这三层嵌套的作用域相称逐级包含的气泡。</p>
 <ol>
-<li><p>分词/词法分析</p>
-<p> 这个过程很容易理解，就是将一段代码，分割成一个个的有意义的代码块，这些代码块被称为词法单元。比如 var a = 2；。分词之后就会产生 var,a,=,2,;。五个词法单元（也不一定是五个，其中的空格会不会被分割成单独的词法单元，要看不同语言对空格不同的解析了）<br> 上面的解释中我们一直没有提词法分析这个词，其实词法分析就是计算机将 var a = 2；这句代码进行分析，转化为一个个词法单元的过程，带入这段代码来说就是分析var是一个词法单元，还是v，a，r三个。</p>
-</li>
-<li><p>解析/语法分析</p>
-<p> 这个过程就是将词法单元流（词法单元组成的数组）转换成一个有元素逐级嵌套所组成的代表程序语法结构的树，称作抽象语法树（AST）</p>
-</li>
-<li><p>代码生成</p>
-<p> 最后一步就是计算机能识别的代码的生成了，说白了就是将AST转换成可执行代码的过程。<br>这个过程中的具体细节我们不去了解，也很难理解清楚（滑稽），简单的说，就是var a = 2；转化成机器指令，计算机识别这条机器指令创建一个a的变量，分配内存等，并将2存储在a中。</p>
-</li>
+<li>全局作用域的气泡。包含foo</li>
+<li>foo创建的作用域气泡。包含a, bar和b。</li>
+<li>bar创建的作用域气泡。包含c</li>
 </ol>
-<p>大部分的语言都会在一开始先将代码进行编译，然后执行，但是我们要学习的JavaScript并不一样，JavaScript的编译发生在代码执行前的几微秒，甚至更短，说白了就是该执行var a = 2；这句代码了才将这句代码编译，然后就直接执行他。</p>
 
       
     </div>
@@ -377,8 +371,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="../hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="../../05/you_dont_know_js_note_scope/" rel="next" title="作用域">
+                <i class="fa fa-chevron-left"></i> 作用域
               </a>
             
           </div>
@@ -387,8 +381,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="../../05/you_dont_know_js_note_scope/" rel="prev" title="作用域">
-                作用域 <i class="fa fa-chevron-right"></i>
+              <a href="../zhihu_api/" rel="prev" title="知乎日报接口">
+                知乎日报接口 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -441,8 +435,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -512,6 +515,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#词法阶段"><span class="nav-number">1.</span> <span class="nav-text">词法阶段</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

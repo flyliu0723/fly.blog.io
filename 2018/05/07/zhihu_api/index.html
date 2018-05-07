@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="../../../../lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="../../../../lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="../../../../css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="../../../../images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../../images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../../images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="../../../../images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="upgrade," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="API 说明知乎日报的消息以 JSON 格式输出 网址中 api 后数字代表 API 版本，过高或过低均会得到错误信息 较老的接口（启动界面图像获取，最新消息，过往消息）中将数字 2 替换为 1.2 获得效果相同，替换为 1.1 获得的是老版本 API 输出的 JSON 格式（替换为更低，如 1.0，或更高，如 1.3，将会获得错误消息） 以下所有 API 使用的 HTTP Method 均为 G">
+<meta name="keywords" content="upgrade">
+<meta property="og:type" content="article">
+<meta property="og:title" content="知乎日报接口">
+<meta property="og:url" content="https://flyliu0723.github.io/fly.blog.io/2018/05/07/zhihu_api/index.html">
+<meta property="og:site_name" content="FLY`s BLOG">
+<meta property="og:description" content="API 说明知乎日报的消息以 JSON 格式输出 网址中 api 后数字代表 API 版本，过高或过低均会得到错误信息 较老的接口（启动界面图像获取，最新消息，过往消息）中将数字 2 替换为 1.2 获得效果相同，替换为 1.1 获得的是老版本 API 输出的 JSON 格式（替换为更低，如 1.0，或更高，如 1.3，将会获得错误消息） 以下所有 API 使用的 HTTP Method 均为 G">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-07T09:38:23.436Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="知乎日报接口">
+<meta name="twitter:description" content="API 说明知乎日报的消息以 JSON 格式输出 网址中 api 后数字代表 API 版本，过高或过低均会得到错误信息 较老的接口（启动界面图像获取，最新消息，过往消息）中将数字 2 替换为 1.2 获得效果相同，替换为 1.1 获得的是老版本 API 输出的 JSON 格式（替换为更低，如 1.0，或更高，如 1.3，将会获得错误消息） 以下所有 API 使用的 HTTP Method 均为 G">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://flyliu0723.github.io/fly.blog.io/2018/05/07/zhihu_api/"/>
+
+
+
+
+
+  <title>知乎日报接口 | FLY`s BLOG</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FLY`s BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://flyliu0723.github.io/fly.blog.io">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="FLY">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="../../../../images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FLY`s BLOG">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">知乎日报接口</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T17:29:02+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="../../../../categories/防知乎日报打造计划/" itemprop="url" rel="index">
+                    <span itemprop="name">防知乎日报打造计划</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="API-说明"><a href="#API-说明" class="headerlink" title="API 说明"></a>API 说明</h3><p>知乎日报的消息以 JSON 格式输出</p>
+<p>网址中 api 后数字代表 API 版本，过高或过低均会得到错误信息</p>
+<p>较老的接口（启动界面图像获取，最新消息，过往消息）中将数字 2 替换为 1.2 获得效果相同，替换为 1.1 获得的是老版本 API 输出的 JSON 格式（替换为更低，如 1.0，或更高，如 1.3，将会获得错误消息）</p>
+<p>以下所有 API 使用的 HTTP Method 均为 GET</p>
+<h3 id="API-分析"><a href="#API-分析" class="headerlink" title="API 分析"></a>API 分析</h3><ol>
+<li>启动界面图像获取</li>
+</ol>
+<ul>
+<li>URL: <a href="http://news-at.zhihu.com/api/4/start-image/1080*1776" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/start-image/1080*1776</a></li>
+<li><p>start-image 后为图像分辨率，接受如下格式</p>
+<ul>
+<li>320*432</li>
+<li>480*728</li>
+<li>720*1184</li>
+<li>1080*1776</li>
+</ul>
+</li>
+<li><p>响应实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    text: &quot;© Fido Dido&quot;,</span><br><span class="line">    img: &quot;http://p2.zhimg.com/10/7b/107bb4894b46d75a892da6fa80ef504a.jpg&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分析：</p>
+<ul>
+<li>text : 供显示的图片版权信息</li>
+<li>img : 图像的 URL</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>软件版本查询</li>
+</ol>
+<ul>
+<li>Android: <a href="http://news-at.zhihu.com/api/4/version/android/2.3.0" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/version/android/2.3.0</a></li>
+<li>iOS: <a href="http://news-at.zhihu.com/api/4/version/ios/2.3.0" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/version/ios/2.3.0</a></li>
+<li>URL 最后部分的数字代表所安装『知乎日报』的版本</li>
+<li>响应实例：</li>
+</ul>
+<p>软件为最新版本时<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;status&quot;: 0,</span><br><span class="line">    &quot;latest&quot;: &quot;2.2.0&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>软件为较老版本时<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;status&quot;: 1,</span><br><span class="line">    &quot;msg&quot;: &quot;【更新内容】（后略）&quot;,</span><br><span class="line">    &quot;latest&quot;: &quot;2.2.0&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>分析：</p>
+<ul>
+<li>status : 0 代表软件为最新版本，1 代表软件需要升级</li>
+<li>latest : 软件最新版本的版本号（数字的第二段会比最新的版本号低 1）</li>
+<li>msg : 仅出现在软件需要升级的情形下，提示用户升级软件的对话框中显示的消息</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>最新消息</li>
+</ol>
+<ul>
+<li>URL: <a href="http://news-at.zhihu.com/api/4/news/latest" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/news/latest</a></li>
+<li><p>响应实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    date: &quot;20140523&quot;,</span><br><span class="line">    stories: [</span><br><span class="line">        &#123;</span><br><span class="line">            title: &quot;中国古代家具发展到今天有两个高峰，一个两宋一个明末（多图）&quot;,</span><br><span class="line">            ga_prefix: &quot;052321&quot;,</span><br><span class="line">            images: [</span><br><span class="line">                &quot;http://p1.zhimg.com/45/b9/45b9f057fc1957ed2c946814342c0f02.jpg&quot;</span><br><span class="line">            ],</span><br><span class="line">            type: 0,</span><br><span class="line">            id: 3930445</span><br><span class="line">        &#125;,</span><br><span class="line">    ...</span><br><span class="line">    ],</span><br><span class="line">    top_stories: [</span><br><span class="line">        &#123;</span><br><span class="line">            title: &quot;商场和很多人家里，竹制家具越来越多（多图）&quot;,</span><br><span class="line">            image: &quot;http://p2.zhimg.com/9a/15/9a1570bb9e5fa53ae9fb9269a56ee019.jpg&quot;,</span><br><span class="line">            ga_prefix: &quot;052315&quot;,</span><br><span class="line">            type: 0,</span><br><span class="line">            id: 3930883</span><br><span class="line">        &#125;,</span><br><span class="line">    ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分析：</p>
+<ul>
+<li>date : 日期</li>
+<li>stories : 当日新闻</li>
+<li>title : 新闻标题</li>
+<li>images : 图像地址（官方 API 使用数组形式。目前暂未有使用多张图片的情形出现，曾见无 images 属性的情况，请在使用中注意 ）</li>
+<li>ga_prefix : 供 Google Analytics 使用</li>
+<li>type : 作用未知</li>
+<li>id : url 与 share_url 中最后的数字（应为内容的 id）</li>
+<li>multipic : 消息是否包含多张图片（仅出现在包含多图的新闻中）</li>
+<li>top_stories : 界面顶部 ViewPager 滚动显示的显示内容（子项格式同上）</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>消息内容获取与离线下载</li>
+</ol>
+<ul>
+<li>URL: <a href="http://news-at.zhihu.com/api/4/news/3892357" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/news/3892357</a></li>
+<li>使用在 最新消息 中获得的 id，拼接在 <a href="http://news-at.zhihu.com/api/4/news/" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/news/</a> 后，得到对应消息 JSON 格式的内容</li>
+<li><p>响应实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    body: &quot;&lt;div class=&quot;main-wrap content-wrap&quot;&gt;...&lt;/div&gt;&quot;,</span><br><span class="line">    image_source: &quot;Yestone.com 版权图片库&quot;,</span><br><span class="line">    title: &quot;深夜惊奇 · 朋友圈错觉&quot;,</span><br><span class="line">    image: &quot;http://pic3.zhimg.com/2d41a1d1ebf37fb699795e78db76b5c2.jpg&quot;,</span><br><span class="line">    share_url: &quot;http://daily.zhihu.com/story/4772126&quot;,</span><br><span class="line">    js: [ ],</span><br><span class="line">    recommenders&quot;: [</span><br><span class="line">        &#123; &quot;avatar&quot;: &quot;http://pic2.zhimg.com/fcb7039c1_m.jpg&quot; &#125;,</span><br><span class="line">        &#123; &quot;avatar&quot;: &quot;http://pic1.zhimg.com/29191527c_m.jpg&quot; &#125;,</span><br><span class="line">        &#123; &quot;avatar&quot;: &quot;http://pic4.zhimg.com/e6637a38d22475432c76e6c9e46336fb_m.jpg&quot; &#125;,</span><br><span class="line">        &#123; &quot;avatar&quot;: &quot;http://pic1.zhimg.com/bd751e76463e94aa10c7ed2529738314_m.jpg&quot; &#125;,</span><br><span class="line">        &#123; &quot;avatar&quot;: &quot;http://pic1.zhimg.com/4766e0648_m.jpg&quot; &#125;</span><br><span class="line">    ],</span><br><span class="line">    ga_prefix: &quot;050615&quot;,</span><br><span class="line">    section&quot;: &#123;</span><br><span class="line">        &quot;thumbnail&quot;: &quot;http://pic4.zhimg.com/6a1ddebda9e8899811c4c169b92c35b3.jpg&quot;,</span><br><span class="line">        &quot;id&quot;: 1,</span><br><span class="line">        &quot;name&quot;: &quot;深夜惊奇&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    type: 0,</span><br><span class="line">    id: 4772126,</span><br><span class="line">    css: [</span><br><span class="line">        &quot;http://news.at.zhihu.com/css/news_qa.auto.css?v=1edab&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分析：</p>
+<ul>
+<li>body : HTML 格式的新闻</li>
+<li>image-source : 图片的内容提供方。为了避免被起诉非法使用图片，在显示图片时最好附上其版权信息。</li>
+<li>title : 新闻标题</li>
+<li>image : 获得的图片同 最新消息 获得的图片分辨率不同。这里获得的是在文章浏览界面中使用的大图。</li>
+<li>share_url : 供在线查看内容与分享至 SNS 用的 URL</li>
+<li>js : 供手机端的 WebView(UIWebView) 使用</li>
+<li>recommenders : 这篇文章的推荐者</li>
+<li>ga_prefix : 供 Google Analytics 使用</li>
+<li>section : 栏目的信息</li>
+<li>thumbnail : 栏目的缩略图</li>
+<li>id : 该栏目的 id</li>
+<li>name : 该栏目的名称</li>
+<li>type : 新闻的类型</li>
+<li>id : 新闻的 id</li>
+<li>css : 供手机端的 WebView(UIWebView) 使用</li>
+</ul>
+</li>
+<li>可知，知乎日报的文章浏览界面利用 WebView(UIWebView) 实现</li>
+<li>特别注意<br>在较为特殊的情况下，知乎日报可能将某个主题日报的站外文章推送至知乎日报首页。<br>响应实例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;theme_name&quot;: &quot;电影日报&quot;,</span><br><span class="line">    &quot;title&quot;: &quot;五分钟读懂明星的花样昵称：一美、法鲨……&quot;,</span><br><span class="line">    &quot;share_url&quot;: &quot;http://daily.zhihu.com/story/3942319&quot;,</span><br><span class="line">    &quot;js&quot;: [],</span><br><span class="line">    &quot;ga_prefix&quot;: &quot;052921&quot;,</span><br><span class="line">    &quot;editor_name&quot;: &quot;邹波&quot;,</span><br><span class="line">    &quot;theme_id&quot;: 3,</span><br><span class="line">    &quot;type&quot;: 1,</span><br><span class="line">    &quot;id&quot;: 3942319,</span><br><span class="line">    &quot;css&quot;: [</span><br><span class="line">        &quot;http://news.at.zhihu.com/css/news_qa.6.css?v=b390f&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>此时返回的 JSON 数据缺少 body，image-source，image，js 属性。多出theme_name，editor_name，theme_id 三个属性。type 由 0 变为 1。</p>
+<ol start="5">
+<li>过往消息</li>
+</ol>
+<ul>
+<li>URL: <a href="http://news.at.zhihu.com/api/4/news/before/20131119" target="_blank" rel="noopener">http://news.at.zhihu.com/api/4/news/before/20131119</a></li>
+<li>若果需要查询 11 月 18 日的消息，before 后的数字应为 20131119</li>
+<li>知乎日报的生日为 2013 年 5 月 19 日，若 before 后数字小于 20130520 ，只会接收到空消息</li>
+<li>输入的今日之后的日期仍然获得今日内容，但是格式不同于最新消息的 JSON 格式</li>
+<li>响应实例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    date: &quot;20131118&quot;,</span><br><span class="line">    stories: [</span><br><span class="line">        &#123;</span><br><span class="line">            title: &quot;深夜食堂 · 我的张曼妮&quot;,</span><br><span class="line">            ga_prefix: &quot;111822&quot;,</span><br><span class="line">            images: [</span><br><span class="line">                &quot;http://p4.zhimg.com/7b/c8/7bc8ef5947b069513c51e4b9521b5c82.jpg&quot;</span><br><span class="line">            ],</span><br><span class="line">            type: 0,</span><br><span class="line">            id: 1747159</span><br><span class="line">        &#125;,</span><br><span class="line">    ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>格式与前同，恕不再赘述</p>
+<ol start="6">
+<li>新闻额外信息</li>
+</ol>
+<ul>
+<li>URL: <a href="http://news-at.zhihu.com/api/4/story-extra/#{id}" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/story-extra/#{id}</a></li>
+<li>输入新闻的ID，获取对应新闻的额外信息，如评论数量，所获的『赞』的数量。</li>
+<li><p>响应实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;long_comments&quot;: 0,</span><br><span class="line">    &quot;popularity&quot;: 161,</span><br><span class="line">    &quot;short_comments&quot;: 19,</span><br><span class="line">    &quot;comments&quot;: 19,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分析：</p>
+<ul>
+<li>long_comments : 长评论总数</li>
+<li>popularity : 点赞总数</li>
+<li>short_comments : 短评论总数</li>
+<li>comments : 评论总数</li>
+</ul>
+</li>
+</ul>
+<ol start="7">
+<li>新闻对应长评论查看</li>
+</ol>
+<ul>
+<li>URL: <a href="http://news-at.zhihu.com/api/4/story/4232852/long-comments" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/story/4232852/long-comments</a></li>
+<li>使用在 最新消息 中获得的 id，在 <a href="http://news-at.zhihu.com/api/4/story/#{id}/long-comments" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/story/#{id}/long-comments</a> 中将 id 替换为对应的 id，得到长评论 JSON 格式的内容</li>
+<li><p>响应实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;comments&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;author&quot;: &quot;EleganceWorld&quot;,</span><br><span class="line">            &quot;id&quot;: 545442,</span><br><span class="line">            &quot;content&quot;: &quot;上海到济南，无尽的猪排盖饭… （后略）&quot;,</span><br><span class="line">            &quot;likes&quot;: 0,</span><br><span class="line">            &quot;time&quot;: 1413589303,</span><br><span class="line">            &quot;avatar&quot;: &quot;http://pic2.zhimg.com/1f76e6a25_im.jpg&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分析：</p>
+<ul>
+<li>comments : 长评论列表，形式为数组（请注意，其长度可能为 0）</li>
+<li>author : 评论作者</li>
+<li>id : 评论者的唯一标识符</li>
+<li>content : 评论的内容</li>
+<li>likes : 评论所获『赞』的数量</li>
+<li>time : 评论时间</li>
+<li>avatar : 用户头像图片的地址</li>
+</ul>
+</li>
+</ul>
+<ol start="8">
+<li>新闻对应短评论查看</li>
+</ol>
+<ul>
+<li>URL: <a href="http://news-at.zhihu.com/api/4/story/4232852/short-comments" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/story/4232852/short-comments</a></li>
+<li>使用在 最新消息 中获得的 id，在 <a href="http://news-at.zhihu.com/api/4/story/#{id}/short-comments" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/story/#{id}/short-comments</a> 中将 id 替换为对应的 id，得到短评论 JSON 格式的内容</li>
+<li>响应实例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;comments&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;author&quot;: &quot;Xiaole说&quot;,</span><br><span class="line">            &quot;id&quot;: 545721,</span><br><span class="line">            &quot;content&quot;: &quot;就吃了个花生米，呵呵&quot;,</span><br><span class="line">            &quot;likes&quot;: 0,</span><br><span class="line">            &quot;time&quot;: 1413600071,</span><br><span class="line">            &quot;avatar&quot;: &quot;http://pic1.zhimg.com/c41f035ab_im.jpg&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>格式与前同，恕不再赘述</p>
+<ol start="9">
+<li>主题日报列表查看</li>
+</ol>
+<ul>
+<li>URL: <a href="http://news-at.zhihu.com/api/4/themes" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/themes</a></li>
+<li><p>响应实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;limit&quot;: 1000,</span><br><span class="line">    &quot;subscribed&quot;: [ ],</span><br><span class="line">    &quot;others&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;color&quot;: 8307764,</span><br><span class="line">            &quot;thumbnail&quot;: &quot;http://pic4.zhimg.com/2c38a96e84b5cc8331a901920a87ea71.jpg&quot;,</span><br><span class="line">            &quot;description&quot;: &quot;内容由知乎用户推荐，海纳主题百万，趣味上天入地&quot;,</span><br><span class="line">            &quot;id&quot;: 12,</span><br><span class="line">            &quot;name&quot;: &quot;用户推荐日报&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分析：</p>
+<ul>
+<li>limit : 返回数目之限制（仅为猜测）</li>
+<li>subscribed : 已订阅条目</li>
+<li>others : 其他条目</li>
+<li>color : 颜色，作用未知</li>
+<li>thumbnail : 供显示的图片地址</li>
+<li>description : 主题日报的介绍</li>
+<li>id : 该主题日报的编号</li>
+<li>name : 供显示的主题日报名称</li>
+</ul>
+</li>
+</ul>
+<ol start="10">
+<li>主题日报内容查看</li>
+</ol>
+<ul>
+<li>URL: <a href="http://news-at.zhihu.com/api/4/theme/11" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/theme/11</a></li>
+<li>使用在 主题日报列表查看 中获得需要查看的主题日报的 id，拼接在 <a href="http://news-at.zhihu.com/api/4/theme/" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/theme/</a> 后，得到对应主题日报 JSON 格式的内容</li>
+<li><p>响应实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    stories: [</span><br><span class="line">        &#123;</span><br><span class="line">            images: [</span><br><span class="line">                &quot;http://pic1.zhimg.com/84dadf360399e0de406c133153fc4ab8_t.jpg&quot;</span><br><span class="line">            ],</span><br><span class="line">            type: 0,</span><br><span class="line">            id: 4239728,</span><br><span class="line">            title: &quot;前苏联监狱纹身百科图鉴&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        ...</span><br><span class="line">    ],</span><br><span class="line">    description: &quot;为你发现最有趣的新鲜事，建议在 WiFi 下查看&quot;,</span><br><span class="line">    background: &quot;http://pic1.zhimg.com/a5128188ed788005ad50840a42079c41.jpg&quot;,</span><br><span class="line">    color: 8307764,</span><br><span class="line">    name: &quot;不许无聊&quot;,</span><br><span class="line">    image: &quot;http://pic3.zhimg.com/da1fcaf6a02d1223d130d5b106e828b9.jpg&quot;,</span><br><span class="line">    editors: [</span><br><span class="line">        &#123;</span><br><span class="line">            url: &quot;http://www.zhihu.com/people/wezeit&quot;,</span><br><span class="line">            bio: &quot;微在 Wezeit 主编&quot;,</span><br><span class="line">            id: 70,</span><br><span class="line">            avatar: &quot;http://pic4.zhimg.com/068311926_m.jpg&quot;,</span><br><span class="line">            name: &quot;益康糯米&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        ...</span><br><span class="line">    ],</span><br><span class="line">    image_source: &quot;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分析：</p>
+<ul>
+<li>stories : 该主题日报中的文章列表</li>
+<li>images : 图像地址（其类型为数组。请留意在代码中处理无该属性与数组长度为 0 的情况）</li>
+<li>type : 类型，作用未知</li>
+<li>title : 消息的标题</li>
+<li>description : 该主题日报的介绍</li>
+<li>background : 该主题日报的背景图片（大图）</li>
+<li>color : 颜色，作用未知</li>
+<li>name : 该主题日报的名称</li>
+<li>image : 背景图片的小图版本</li>
+<li>editors : 该主题日报的编辑（『用户推荐日报』中此项的指是一个空数组，在 App 中的主编栏显示为『许多人』，点击后访问该主题日报的介绍页面，请留意）</li>
+<li>url : 主编的知乎用户主页</li>
+<li>bio : 主编的个人简介</li>
+<li>id : 数据库中的唯一表示符</li>
+<li>avatar : 主编的头像</li>
+<li>name : 主编的姓名</li>
+<li>image_source : 图像的版权信息</li>
+</ul>
+</li>
+</ul>
+<ol start="11">
+<li>热门消息</li>
+</ol>
+<ul>
+<li>请注意！ 此 API 仍可访问，但是其内容未出现在最新的『知乎日报』 App 中。</li>
+<li>URL: <a href="http://news-at.zhihu.com/api/3/news/hot" target="_blank" rel="noopener">http://news-at.zhihu.com/api/3/news/hot</a></li>
+<li><p>响应实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    recent: [</span><br><span class="line">        &#123;</span><br><span class="line">            news_id: 3748552,</span><br><span class="line">            url: &quot;http://daily.zhihu.com/api/2/news/3748552&quot;,</span><br><span class="line">            thumbnail: &quot;http://p3.zhimg.com/67/6a/676a8337efec71a100eea6130482091b.jpg&quot;,</span><br><span class="line">            title: &quot;长得漂亮能力出众性格单纯的姑娘为什么会没有男朋友？&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">    ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>大体同前面介绍的 API 类似，唯一需要注意的是：欲获得图片地址，不再使用 image 而是thumbnail 属性</p>
+</li>
+<li><p>url 属性可直接使用。请注意，url 中的 api 属性为 2，是较老版本。</p>
+</li>
+</ul>
+<ol start="12">
+<li>软件推广</li>
+</ol>
+<ul>
+<li>请注意！ 此 API 已无法访问，但是其内容曾出现于『知乎日报』 App 中。</li>
+<li>Android: <a href="http://news-at.zhihu.com/api/3/promotion/android" target="_blank" rel="noopener">http://news-at.zhihu.com/api/3/promotion/android</a></li>
+<li>iOS: <a href="http://news-at.zhihu.com/api/3/promotion/ios" target="_blank" rel="noopener">http://news-at.zhihu.com/api/3/promotion/ios</a></li>
+</ul>
+<ol start="13">
+<li>栏目总览</li>
+</ol>
+<ul>
+<li>请注意！ 此 API 仍可访问，但是其内容未出现在最新的『知乎日报』 App 中。</li>
+<li>URL: <a href="http://news-at.zhihu.com/api/3/sections" target="_blank" rel="noopener">http://news-at.zhihu.com/api/3/sections</a></li>
+<li>响应实例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    data: [</span><br><span class="line">        &#123;</span><br><span class="line">            id: 1,</span><br><span class="line">            thumbnail: &quot;http://p2.zhimg.com/10/b8/10b8193dd6a3404d31b2c50e1e232c87.jpg&quot;,</span><br><span class="line">            name: &quot;深夜食堂&quot;,</span><br><span class="line">            description: &quot;睡前宵夜，用别人的故事下酒&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">    ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>同样，注意使用 thumbnail 获取图像的地址</p>
+<ol start="14">
+<li>栏目具体消息查看</li>
+</ol>
+<ul>
+<li>请注意！ 此 API 仍可访问，但是其内容未出现在最新的『知乎日报』 App 中。</li>
+<li>URL: <a href="http://news-at.zhihu.com/api/3/section/1" target="_blank" rel="noopener">http://news-at.zhihu.com/api/3/section/1</a></li>
+<li>URL 最后的数字见『栏目总览』中相应栏目的 id 属性</li>
+<li>响应实例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    news: [</span><br><span class="line">        &#123;</span><br><span class="line">            date: &quot;20140522&quot;,</span><br><span class="line">            display_date: &quot;5 月 22 日&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">    ...</span><br><span class="line">    ],</span><br><span class="line">    name: &quot;深夜食堂&quot;,</span><br><span class="line">    timestamp: 1398780001</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>往前：<a href="http://news-at.zhihu.com/api/3/section/1/before/1398780001" target="_blank" rel="noopener">http://news-at.zhihu.com/api/3/section/1/before/1398780001</a></p>
+<p>在 URL 最后加上一个时间戳，时间戳详见 JSON 数据末端的 timestamp 属性</p>
+<ol start="15">
+<li>查看新闻的推荐者</li>
+</ol>
+<ul>
+<li>URL: <a href="http://news-at.zhihu.com/api/4/story/#{id}/recommenders" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/story/#{id}/recommenders</a></li>
+<li>将新闻id填入到#{id}的位置， 如 <a href="http://news-at.zhihu.com/api/4/story/7101963/recommenders" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/story/7101963/recommenders</a></li>
+<li>响应实例<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;items&quot;: [],</span><br><span class="line">    &quot;editors&quot;: [&#123;</span><br><span class="line">        &quot;bio&quot;: &quot;树上的女爵&quot;,</span><br><span class="line">        &quot;title&quot;: &quot;主编&quot;,</span><br><span class="line">        &quot;id&quot;: 79,</span><br><span class="line">        &quot;avatar&quot;: &quot;http:\/\/pic1.zhimg.com\/0a6456810_m.jpg&quot;,</span><br><span class="line">        &quot;name&quot;: &quot;刘柯&quot;</span><br><span class="line">    &#125;],</span><br><span class="line">    &quot;item_count&quot;: 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="16">
+<li>获取某个专栏之前的新闻</li>
+</ol>
+<ul>
+<li>URL: <a href="http://news-at.zhihu.com/api/4/theme/#{theme" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/theme/#{theme</a> id}/before/#{id}</li>
+<li>将专栏id填入到 #{theme id}, 将新闻id填入到#{id}，如 <a href="http://news-at.zhihu.com/api/4/theme/11/before/7119483" target="_blank" rel="noopener">http://news-at.zhihu.com/api/4/theme/11/before/7119483</a></li>
+<li>注：新闻id要是属于该专栏，否则，返回结果为空</li>
+<li>响应实例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;stories&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;images&quot;: [</span><br><span class="line">                &quot;http://pic2.zhimg.com/27f3d8f4c1e0000d04ee446a2f020cf1_t.jpg&quot;</span><br><span class="line">             ],</span><br><span class="line">            &quot;type&quot;: 2,</span><br><span class="line">            &quot;id&quot;: 7119477,</span><br><span class="line">            &quot;title&quot;: &quot;9 张本周最热节操图，诺一就是人生赢家本人&quot;</span><br><span class="line">        &#125;, ...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="../../../../tags/upgrade/" rel="tag"># upgrade</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="../you_dont_know_js_note_morphology_scope/" rel="next" title="词法作用域">
+                <i class="fa fa-chevron-left"></i> 词法作用域
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">FLY</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="../../../../archives">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="../../../../categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="../../../../tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/flyliu0723" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#API-说明"><span class="nav-number">1.</span> <span class="nav-text">API 说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API-分析"><span class="nav-number">2.</span> <span class="nav-text">API 分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">FLY</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="../../../../js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="../../../../js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="../../../../js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="../../../../js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="../../../../js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="../../../../js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="../../../../js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
