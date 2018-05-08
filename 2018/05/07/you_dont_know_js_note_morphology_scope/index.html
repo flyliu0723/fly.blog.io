@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="FLY`s BLOG">
 <meta property="og:description" content="作用域有两种主要的工作模型，一种是大多数编程语言采用的词法作用域，这也是我们要学习的JavaScript采用的，另一种叫做动态作用域，也有部分语言采用这种。 词法阶段简单的说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域就是有你写代码时将变量和块作用域写到哪里决定的。 1234567891011function foo(a)&amp;#123;    var b = a * 2    fun">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-07T06:12:18.133Z">
+<meta property="og:updated_time" content="2018-05-08T02:06:56.093Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="词法作用域">
 <meta name="twitter:description" content="作用域有两种主要的工作模型，一种是大多数编程语言采用的词法作用域，这也是我们要学习的JavaScript采用的，另一种叫做动态作用域，也有部分语言采用这种。 词法阶段简单的说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域就是有你写代码时将变量和块作用域写到哪里决定的。 1234567891011function foo(a)&amp;#123;    var b = a * 2    fun">
@@ -341,6 +341,13 @@
 <li>foo创建的作用域气泡。包含a, bar和b。</li>
 <li>bar创建的作用域气泡。包含c</li>
 </ol>
+<p>我们要输出a,b,c时，去查找这三个变量，首先在所在的作用域气泡中查找，也就是bar中，没有找到的再向上查找，这是很简单的，我们就不一一的看了。</p>
+<p>这里我们还要了解一个词-‘遮蔽效应’，其实很简单，就是查找到第一个匹配的标识符时停止查找同意名称的变量在不同的作用域中互不影响。</p>
+<ul>
+<li>无论函数在哪里调用，也无论如何被调用，他的词法作用域只由函数被声明时所处的位置决定。</li>
+</ul>
+<h2 id="欺骗词法"><a href="#欺骗词法" class="headerlink" title="欺骗词法"></a>欺骗词法</h2><p>其实我们可以修改词法作用域的，但是这种欺骗会导致性能的下降，这里不建议使用。</p>
+<p>欺骗词法的两种方法是eval和with，我们也不详细解释了，应该也用不到。</p>
 
       
     </div>
@@ -525,7 +532,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#词法阶段"><span class="nav-number">1.</span> <span class="nav-text">词法阶段</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#词法阶段"><span class="nav-number">1.</span> <span class="nav-text">词法阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#欺骗词法"><span class="nav-number">2.</span> <span class="nav-text">欺骗词法</span></a></li></ol></div>
             
 
           </div>
