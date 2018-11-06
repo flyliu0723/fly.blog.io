@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="作用域有两种主要的工作模型，一种是大多数编程语言采用的词法作用域，这也是我们要学习的JavaScript采用的，另一种叫做动态作用域，也有部分语言采用这种。 词法阶段简单的说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域就是有你写代码时将变量和块作用域写到哪里决定的。 1234567891011function foo(a)&amp;#123;    var b = a * 2    fun">
+<meta name="description" content="对于一个前端工程师，变量的提升应该是人尽皆知了，看到下面两段代码，肯定很容易得出答案： 123a = 2;var a;console.log(a); 12console.log(a);var a = 2; 很显然，第一个输出2；第二个输出undefined；当问到为什么会这样时，会毫不犹豫的回答，提升。如果让在详细的说明，也许就说不出个所以然了。 下面我们就好好看看为什么会这样呢？ 编译器引擎在解">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="词法作用域">
-<meta property="og:url" content="https://flyliu0723.github.io/flyblog/2018/05/07/you_dont_know_js_note_morphology_scope/index.html">
+<meta property="og:title" content="提升">
+<meta property="og:url" content="https://flyliu0723.github.io/flyblog/2018/11/06/you_dont_know_js_note_promotion/index.html">
 <meta property="og:site_name" content="FLY`s BLOG">
-<meta property="og:description" content="作用域有两种主要的工作模型，一种是大多数编程语言采用的词法作用域，这也是我们要学习的JavaScript采用的，另一种叫做动态作用域，也有部分语言采用这种。 词法阶段简单的说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域就是有你写代码时将变量和块作用域写到哪里决定的。 1234567891011function foo(a)&amp;#123;    var b = a * 2    fun">
+<meta property="og:description" content="对于一个前端工程师，变量的提升应该是人尽皆知了，看到下面两段代码，肯定很容易得出答案： 123a = 2;var a;console.log(a); 12console.log(a);var a = 2; 很显然，第一个输出2；第二个输出undefined；当问到为什么会这样时，会毫不犹豫的回答，提升。如果让在详细的说明，也许就说不出个所以然了。 下面我们就好好看看为什么会这样呢？ 编译器引擎在解">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-08T02:06:56.093Z">
+<meta property="og:updated_time" content="2018-11-06T03:07:59.423Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="词法作用域">
-<meta name="twitter:description" content="作用域有两种主要的工作模型，一种是大多数编程语言采用的词法作用域，这也是我们要学习的JavaScript采用的，另一种叫做动态作用域，也有部分语言采用这种。 词法阶段简单的说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域就是有你写代码时将变量和块作用域写到哪里决定的。 1234567891011function foo(a)&amp;#123;    var b = a * 2    fun">
+<meta name="twitter:title" content="提升">
+<meta name="twitter:description" content="对于一个前端工程师，变量的提升应该是人尽皆知了，看到下面两段代码，肯定很容易得出答案： 123a = 2;var a;console.log(a); 12console.log(a);var a = 2; 很显然，第一个输出2；第二个输出undefined；当问到为什么会这样时，会毫不犹豫的回答，提升。如果让在详细的说明，也许就说不出个所以然了。 下面我们就好好看看为什么会这样呢？ 编译器引擎在解">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://flyliu0723.github.io/flyblog/2018/05/07/you_dont_know_js_note_morphology_scope/"/>
+  <link rel="canonical" href="https://flyliu0723.github.io/flyblog/2018/11/06/you_dont_know_js_note_promotion/"/>
 
 
 
 
 
-  <title>词法作用域 | FLY`s BLOG</title>
+  <title>提升 | FLY`s BLOG</title>
   
 
 
@@ -260,7 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">词法作用域</h1>
+          <h1 class="post-title" itemprop="name headline">提升</h1>
         
 
         <div class="post-meta">
@@ -272,8 +272,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T11:34:25+08:00">
-                2018-05-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-06T11:06:21+08:00">
+                2018-11-06
               </time>
             
 
@@ -332,22 +332,49 @@
       
 
       
-        <p>作用域有两种主要的工作模型，一种是大多数编程语言采用的词法作用域，这也是我们要学习的JavaScript采用的，另一种叫做动态作用域，也有部分语言采用这种。</p>
-<h2 id="词法阶段"><a href="#词法阶段" class="headerlink" title="词法阶段"></a>词法阶段</h2><p>简单的说，词法作用域就是定义在词法阶段的作用域。换句话说，词法作用域就是有你写代码时将变量和块作用域写到哪里决定的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function foo(a)&#123;</span><br><span class="line">    var b = a * 2</span><br><span class="line"></span><br><span class="line">    function bar(c) &#123;</span><br><span class="line">        console.log(a, b, c)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    bar(b * 3)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(2) // 2, 4, 12</span><br></pre></td></tr></table></figure>
-<p>上面代码能很好的帮助我们理解词法作用域，我们可以将这三层嵌套的作用域相称逐级包含的气泡。</p>
-<ol>
-<li>全局作用域的气泡。包含foo</li>
-<li>foo创建的作用域气泡。包含a, bar和b。</li>
-<li>bar创建的作用域气泡。包含c</li>
-</ol>
-<p>我们要输出a,b,c时，去查找这三个变量，首先在所在的作用域气泡中查找，也就是bar中，没有找到的再向上查找，这是很简单的，我们就不一一的看了。</p>
-<p>这里我们还要了解一个词-‘遮蔽效应’，其实很简单，就是查找到第一个匹配的标识符时停止查找同意名称的变量在不同的作用域中互不影响。</p>
-<ul>
-<li>无论函数在哪里调用，也无论如何被调用，他的词法作用域只由函数被声明时所处的位置决定。</li>
-</ul>
-<h2 id="欺骗词法"><a href="#欺骗词法" class="headerlink" title="欺骗词法"></a>欺骗词法</h2><p>其实我们可以修改词法作用域的，但是这种欺骗会导致性能的下降，这里不建议使用。</p>
-<p>欺骗词法的两种方法是eval和with，我们也不详细解释了，应该也用不到。</p>
+        <p>对于一个前端工程师，变量的提升应该是人尽皆知了，看到下面两段代码，肯定很容易得出答案：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"><span class="built_in">console</span>.log(a);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a);</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>很显然，第一个输出2；第二个输出undefined；当问到为什么会这样时，会毫不犹豫的回答，提升。如果让在详细的说明，也许就说不出个所以然了。</p>
+<p>下面我们就好好看看为什么会这样呢？</p>
+<h3 id="编译器"><a href="#编译器" class="headerlink" title="编译器"></a>编译器</h3><p>引擎在解释JavaScript代码之前会首先对其进行编译，而在编译阶段的一部分工作就是找到所有的声明，并用合适的作用域将他们关联起来。</p>
+<p>再来看上面的代码，在进行代码的执行之前，‘var a’会被提前处理，也就是首先定义了一个名字为a的变量。所以第一个就是赋值然后输出，所以输出2；而第二个是输出然后赋值，所以是undefined。</p>
+<blockquote>
+<p>变量和函数在内的所有声明会在代码被执行前首先被处理。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>只有声明本身会被提升，赋值和其他运行逻辑会留在原地。</p>
+</blockquote>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a();</span><br><span class="line">b();</span><br><span class="line"><span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'this is a'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'this is b'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>既然函数的声明也会提前，我们当然也有看一下声明函数的例子。上面的代码会输出吗？会输出什么？</p>
+<p>最后我们得到的记过是</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a() <span class="comment">//Uncaught TypeError: a is not a function</span></span><br><span class="line">b() <span class="comment">// this is b</span></span><br></pre></td></tr></table></figure>
+<p>我们来看一下这段代码，由我们知道的知识可以知道a，b的声明都会提前，但是不一样的是a作为一个变量而b则是一个函数，所以a()的输出很容易理解，因为此时的a只是一个变量，所以抛出TypeError。</p>
+<p>而b()能执行是因为，函数的声明提升的不止声明，连同提升的还有函数体。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c() <span class="comment">//Uncaught TypeError: a is not a function</span></span><br><span class="line">d() <span class="comment">// ReferenceError： d is not a function</span></span><br><span class="line"><span class="keyword">var</span> c = <span class="function"><span class="keyword">function</span> <span class="title">d</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'this is c and d'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ReferenceError代表当一个不存在的变量被引用时发生的错误</p>
+</blockquote>
+<p>再看一下上面这段代码，和上一段有一些微小的差别。c()的错误我们已经知道原因。但是d()又是因为什么呢？</p>
+<p>这段代码的提升的只有var c，d的提升并不是我们想象的那样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c</span><br><span class="line">c()</span><br><span class="line">d()</span><br><span class="line">c = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> d = ...self...</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'this id c and d'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="函数优先"><a href="#函数优先" class="headerlink" title="函数优先"></a>函数优先</h3><p>上面我们已经知道了，函数声明和变量声明都会被提前。但是如果发生了函数和变量重名，这时候的会发生什么呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">foo()</span><br><span class="line"><span class="keyword">var</span> foo</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'this is function'</span>)</span><br><span class="line">&#125;</span><br><span class="line">foo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'this is variable'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候foo()输出的是‘this is function’ 不是’this is variable’。为什么呢？</p>
+<p>答案很简单，函数优先。</p>
+<p>var foo 虽然出现在function foo的前面，但是它是重复的声明，会被忽略。</p>
+<h3 id="结"><a href="#结" class="headerlink" title="结"></a>结</h3><p>了解了提升之后，我们需要一个能力：</p>
+<p>看到的是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>心里想的是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a</span><br><span class="line">a = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>声明本身会提升，而包括函数表达式的赋值在内的赋值操作并不会提升</strong>。</p>
+</blockquote>
+<p>最后总结一下提升：</p>
+<p>所有的声明（变量和函数）都会被移动到各自作用域的最顶端。</p>
 
       
     </div>
@@ -378,8 +405,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="../../05/you_dont_know_js_note_scope/" rel="next" title="作用域">
-                <i class="fa fa-chevron-left"></i> 作用域
+              <a href="../../../08/28/webpack_note_basis/" rel="next" title="webpack基础">
+                <i class="fa fa-chevron-left"></i> webpack基础
               </a>
             
           </div>
@@ -387,10 +414,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="../zhihu_api/" rel="prev" title="知乎日报接口">
-                知乎日报接口 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -532,7 +555,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#词法阶段"><span class="nav-number">1.</span> <span class="nav-text">词法阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#欺骗词法"><span class="nav-number">2.</span> <span class="nav-text">欺骗词法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#编译器"><span class="nav-number">1.</span> <span class="nav-text">编译器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数优先"><span class="nav-number">2.</span> <span class="nav-text">函数优先</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结"><span class="nav-number">3.</span> <span class="nav-text">结</span></a></li></ol></div>
             
 
           </div>
